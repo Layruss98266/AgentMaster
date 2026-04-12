@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Skills-40+-10B981?style=for-the-badge" alt="40+ Skills">
+  <img src="https://img.shields.io/badge/Skills-41+-10B981?style=for-the-badge" alt="40+ Skills">
   <img src="https://img.shields.io/badge/Categories-21-F59E0B?style=for-the-badge" alt="21 Categories">
   <img src="https://img.shields.io/badge/Platforms-11-6366F1?style=for-the-badge" alt="11 Platforms">
   <img src="https://img.shields.io/badge/Token_Savings-~75%25-EF4444?style=for-the-badge" alt="75% Token Savings">
@@ -130,6 +130,7 @@ No manual skill selection. No guessing. No loading 5 skills when you need 1.
 | `/agent-master status` | Shows current state (caveman on/off, last skill used, active workflow) |
 | `/agent-master update` | Force-update all dependency repos and sync skills |
 | `/caveman` | Enable token compression (~75% savings on all output) |
+| `/codereview` | Blunt, factual code review — finds bugs, security issues, doc mismatches |
 
 ### Auto-Update
 
@@ -188,7 +189,7 @@ Three layers that **stack, never compete**:
 | **Build/Create** | build, create, implement, scaffold | `brainstorming` → `engineering-team` |
 | **Refactor** | refactor, restructure, clean up | `brainstorming` → `engineering-team` |
 | **Debug/Fix** | bug, crash, error, fix, broken | `systematic-debugging` |
-| **Code Review** | review code, PR, check diff | `requesting-code-review` |
+| **Code Review** | review code, /codereview, check diff | `codereview` (blunt) or `requesting-code-review` (PR workflow) |
 | **Commit/Ship** | commit, merge, ship, push | `finishing-a-development-branch` |
 | **Test** | write tests, TDD, coverage | `test-driven-development` |
 | **Marketing** | blog, SEO, campaign, ads, copy | `marketing-skill` (44 sub-skills) |
@@ -218,7 +219,7 @@ When words match multiple categories, AgentMaster resolves automatically:
 | "test" | Code Test | "A/B test" → Marketing |
 | "audit" | Compliance | "security audit" → Security |
 | "container" | DevOps | "container component" → Build/Create |
-| "review" | Code Review | "content review" → Marketing |
+| "review" | Code Review (`codereview`) | "review PR" → `requesting-code-review`. "content review" → Marketing |
 | "deploy" | DevOps | "deploy feature" + code → Build + DevOps |
 | "report" | Documentation | "bug report" → Debug/Fix |
 | "plan" | Build | "make a plan" → `make-plan` |
@@ -242,12 +243,12 @@ When words match multiple categories, AgentMaster resolves automatically:
 
 | Source | What | Skills |
 |--------|------|--------|
-| **This repo** | Orchestrator + custom skills | `agent-master`, `devops`, `security-audit` |
+| **This repo** | Orchestrator + custom skills | `agent-master`, `devops`, `security-audit`, `codereview` |
 | [caveman](https://github.com/JuliusBrussee/caveman) | Token compression | `caveman`, `caveman-commit`, `caveman-review`, `caveman-help`, `compress` |
 | [superpowers](https://github.com/obra/superpowers) | Dev workflow | `brainstorming`, `writing-plans`, `test-driven-development`, `systematic-debugging`, +10 more |
 | [claude-skills](https://github.com/alirezarezvani/claude-skills) | Domain expertise | `engineering-team`, `marketing-skill`, `product-team`, `c-level-advisor`, `finance`, +5 more |
 | [claude-mem](https://github.com/thedotmack/claude-mem) | Session memory | `mem-search`, `smart-explore`, `knowledge-agent`, `make-plan`, `do`, `timeline-report`, `version-bump` |
-| **Total** | | **40 skills** |
+| **Total** | | **41 skills** |
 
 ## Loop Prevention
 
@@ -280,6 +281,7 @@ When `/caveman` is active, AgentMaster automatically:
 AgentMaster/
 ├── skills/                          # Source of truth (Claude Code format)
 │   ├── agent-master/SKILL.md        #   Meta-orchestrator (21 categories)
+│   ├── codereview/SKILL.md          #   Blunt code review (/codereview)
 │   ├── devops/SKILL.md              #   CI/CD, Docker, Terraform, deployment
 │   └── security-audit/SKILL.md      #   OWASP Top 10, vuln scanning
 │

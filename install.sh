@@ -14,7 +14,7 @@ echo ""
 # Create skills directory
 mkdir -p "$SKILLS_DIR"
 
-# 1. Install custom skills (agent-master, devops, security-audit)
+# 1. Install custom skills (agent-master, codereview, devops, security-audit)
 echo "[1/5] Installing custom skills..."
 for skill_dir in "$SCRIPT_DIR/skills/"*/; do
   skill_name=$(basename "$skill_dir")
