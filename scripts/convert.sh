@@ -7,6 +7,13 @@
 
 set -e
 
+if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+  echo "Usage: bash scripts/convert.sh --tool <platform|all>"
+  echo "Converts skills/ to platform-specific formats."
+  echo "Platforms: cursor, windsurf, cline, codex, gemini, antigravity, opencode, augment, aider, copilot, all"
+  exit 0
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_DIR="$(dirname "$SCRIPT_DIR")"
 SKILLS_DIR="$REPO_DIR/skills"

@@ -6,7 +6,7 @@ $ErrorActionPreference = "Stop"
 $SkillsDir = "$env:USERPROFILE\.claude\skills"
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
-Write-Host "AgentMaster Installer v1.0" -ForegroundColor Cyan
+Write-Host "AgentMaster Installer v1.1" -ForegroundColor Cyan
 Write-Host "==========================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -105,6 +105,7 @@ Write-Host "  /agent-master              - invoke orchestrator"
 Write-Host "  /agent-master route <task> - dry-run routing"
 Write-Host "  /agent-master status       - show current state"
 Write-Host "  /agent-master update       - force update all repos"
+Write-Host "  /codereview                - blunt code review"
 Write-Host "  /caveman                   - enable token compression"
 Write-Host ""
 Write-Host "Auto-update: skills sync from repos every 6 hours on first invoke."

@@ -7,7 +7,13 @@ set -e
 SKILLS_DIR="$HOME/.claude/skills"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-echo "AgentMaster Installer v1.0"
+if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+  echo "Usage: bash install.sh"
+  echo "Installs AgentMaster skills + 4 dependency repos to ~/.claude/skills/"
+  exit 0
+fi
+
+echo "AgentMaster Installer v1.1"
 echo "=========================="
 echo ""
 
@@ -15,7 +21,7 @@ echo ""
 mkdir -p "$SKILLS_DIR"
 
 # 1. Install custom skills (agent-master, codereview, devops, security-audit)
-echo "[1/5] Installing custom skills..."
+echo "[1/6] Installing custom skills..."
 for skill_dir in "$SCRIPT_DIR/skills/"*/; do
   skill_name=$(basename "$skill_dir")
   if [ -f "$skill_dir/SKILL.md" ]; then
@@ -26,12 +32,14 @@ done
 
 # 2. Clone and install caveman (token compression)
 echo ""
-echo "[2/5] Installing caveman (token compression)..."
+echo "[2/6] Installing caveman (token compression)..."
 if [ ! -d "$SKILLS_DIR/caveman" ]; then
   TMP=$(mktemp -d)
+  trap 'rm -rf "$TMP"' EXIT
   git clone --depth 1 https://github.com/JuliusBrussee/caveman.git "$TMP" 2>/dev/null
   cp -r "$TMP/skills/"* "$SKILLS_DIR/"
   rm -rf "$TMP"
+  trap - EXIT
   echo "  + caveman, caveman-commit, caveman-review, caveman-help, compress"
 else
   echo "  ~ caveman already installed, skipping"
@@ -39,12 +47,14 @@ fi
 
 # 3. Clone and install superpowers (dev workflow)
 echo ""
-echo "[3/5] Installing superpowers (dev workflow)..."
+echo "[3/6] Installing superpowers (dev workflow)..."
 if [ ! -d "$SKILLS_DIR/brainstorming" ]; then
   TMP=$(mktemp -d)
+  trap 'rm -rf "$TMP"' EXIT
   git clone --depth 1 https://github.com/obra/superpowers.git "$TMP" 2>/dev/null
   cp -r "$TMP/skills/"* "$SKILLS_DIR/"
   rm -rf "$TMP"
+  trap - EXIT
   echo "  + brainstorming, writing-plans, test-driven-development, systematic-debugging, ..."
 else
   echo "  ~ superpowers already installed, skipping"
@@ -52,9 +62,10 @@ fi
 
 # 4. Clone and install claude-skills (domain expertise)
 echo ""
-echo "[4/5] Installing claude-skills (domain expertise)..."
+echo "[4/6] Installing claude-skills (domain expertise)..."
 if [ ! -d "$SKILLS_DIR/engineering-team" ]; then
   TMP=$(mktemp -d)
+  trap 'rm -rf "$TMP"' EXIT
   git clone --depth 1 https://github.com/alirezarezvani/claude-skills.git "$TMP" 2>/dev/null
   for dir in "$TMP/"*/; do
     if [ -f "$dir/SKILL.md" ]; then
@@ -63,6 +74,7 @@ if [ ! -d "$SKILLS_DIR/engineering-team" ]; then
     fi
   done
   rm -rf "$TMP"
+  trap - EXIT
   echo "  + engineering-team, marketing-skill, product-team, c-level-advisor, ..."
 else
   echo "  ~ claude-skills already installed, skipping"
@@ -70,12 +82,14 @@ fi
 
 # 5. Install claude-mem (session memory) - skills only
 echo ""
-echo "[5/5] Installing claude-mem skills (session memory)..."
+echo "[5/6] Installing claude-mem skills (session memory)..."
 if [ ! -d "$SKILLS_DIR/mem-search" ]; then
   TMP=$(mktemp -d)
+  trap 'rm -rf "$TMP"' EXIT
   git clone --depth 1 https://github.com/thedotmack/claude-mem.git "$TMP" 2>/dev/null
   cp -r "$TMP/plugin/skills/"* "$SKILLS_DIR/"
   rm -rf "$TMP"
+  trap - EXIT
   echo "  + mem-search, smart-explore, knowledge-agent, make-plan, do, timeline-report, version-bump"
 else
   echo "  ~ claude-mem skills already installed, skipping"
@@ -107,6 +121,7 @@ echo "  /agent-master              - invoke orchestrator"
 echo "  /agent-master route <task> - dry-run routing"
 echo "  /agent-master status       - show current state"
 echo "  /agent-master update       - force update all repos"
+echo "  /codereview                - blunt code review"
 echo "  /caveman                   - enable token compression"
 echo ""
 echo "Auto-update: skills sync from repos every 6 hours on first invoke."

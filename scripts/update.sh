@@ -1,6 +1,6 @@
 #!/bin/bash
 # AgentMaster Auto-Updater
-# Pulls latest from all 4 dependency repos and syncs skills
+# Pulls latest from all dependency repos and syncs skills
 # Designed to run in background on session start
 #
 # Usage:
@@ -8,6 +8,13 @@
 #   bash scripts/update.sh --quiet      # suppress output (background mode)
 
 set -e
+
+if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+  echo "Usage: bash scripts/update.sh [--quiet]"
+  echo "Pulls latest from all dependency repos and syncs skills to ~/.claude/skills/"
+  echo "  --quiet   Suppress output (for background mode)"
+  exit 0
+fi
 
 SKILLS_DIR="$HOME/.claude/skills"
 CACHE_DIR="$HOME/.claude/.agentmaster-cache"
