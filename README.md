@@ -300,6 +300,13 @@ AgentMaster/
 │   ├── convert.sh                   # Generate platform files from skills/
 │   └── install-platform.sh          # Install to any platform's skill directory
 │
+├── Tool-Stack-Reference/            # 400+ tools across 24 categories (free/paid)
+│   ├── 01-frontend-development.md   #   Next.js, React, Tailwind, etc.
+│   ├── 02-backend-development.md    #   Node, FastAPI, PostgreSQL, etc.
+│   ├── ...                          #   22 more category files
+│   ├── 24-indian-startup-stack.md   #   India-specific tools (Razorpay, Zoho, etc.)
+│   └── index.html                   #   Searchable HTML dashboard
+│
 ├── RULES.example.md                 # Custom rules template (copy to ~/.claude/RULES.md)
 ├── install.sh                       # Claude Code full installer (+ dependencies)
 ├── install.ps1                      # Claude Code full installer (Windows)
