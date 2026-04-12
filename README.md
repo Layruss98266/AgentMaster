@@ -1,19 +1,29 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/Claude_Code-Skills-7C3AED?style=for-the-badge&logo=anthropic&logoColor=white" alt="Claude Code Skills">
+  <img src="https://img.shields.io/badge/Claude_Code-7C3AED?style=for-the-badge&logo=anthropic&logoColor=white" alt="Claude Code">
+  <img src="https://img.shields.io/badge/Codex-10A37F?style=for-the-badge&logo=openai&logoColor=white" alt="Codex">
+  <img src="https://img.shields.io/badge/Cursor-000000?style=for-the-badge&logo=cursor&logoColor=white" alt="Cursor">
+  <img src="https://img.shields.io/badge/Windsurf-0EA5E9?style=for-the-badge" alt="Windsurf">
+  <img src="https://img.shields.io/badge/Gemini_CLI-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Gemini CLI">
+  <img src="https://img.shields.io/badge/Antigravity-F97316?style=for-the-badge" alt="Antigravity">
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/Skills-40+-10B981?style=for-the-badge" alt="40+ Skills">
   <img src="https://img.shields.io/badge/Categories-21-F59E0B?style=for-the-badge" alt="21 Categories">
+  <img src="https://img.shields.io/badge/Platforms-11-6366F1?style=for-the-badge" alt="11 Platforms">
   <img src="https://img.shields.io/badge/Token_Savings-~75%25-EF4444?style=for-the-badge" alt="75% Token Savings">
 </p>
 
 <h1 align="center">AgentMaster</h1>
 
 <p align="center">
-  <strong>Meta-orchestrator for Claude Code</strong><br>
-  One skill to route them all. Classifies any task and combines the right skills automatically.
+  <strong>Meta-orchestrator for AI coding agents</strong><br>
+  One skill to route them all. Works on Claude Code, Codex, Cursor, Windsurf, Antigravity, Gemini CLI, and 5 more platforms.
 </p>
 
 <p align="center">
   <a href="#quick-start">Quick Start</a> &bull;
+  <a href="#supported-platforms">Platforms</a> &bull;
   <a href="#how-it-works">How It Works</a> &bull;
   <a href="#routing-table">Routing Table</a> &bull;
   <a href="#commands">Commands</a> &bull;
@@ -32,25 +42,61 @@ You have 40+ Claude Code skills installed. For every task, you manually decide:
 
 **AgentMaster decides for you.** One entry point. Zero manual routing.
 
+## Supported Platforms
+
+| Platform | Format | Install Method |
+|----------|--------|---------------|
+| **Claude Code** | `SKILL.md` | `bash install.sh` or `.\install.ps1` |
+| **OpenAI Codex** | `SKILL.md` | `bash scripts/install-platform.sh --platform codex` |
+| **Cursor** | `.mdc` rules | `bash scripts/install-platform.sh --platform cursor` |
+| **Windsurf** | `SKILL.md` (trigger frontmatter) | `bash scripts/install-platform.sh --platform windsurf` |
+| **Cline** | `.md` rules | `bash scripts/install-platform.sh --platform cline` |
+| **Gemini CLI** | `SKILL.md` | `bash scripts/install-platform.sh --platform gemini` |
+| **Antigravity** | `SKILL.md` (risk/source fields) | `bash scripts/install-platform.sh --platform antigravity` |
+| **OpenCode** | `SKILL.md` (compatibility field) | `bash scripts/install-platform.sh --platform opencode` |
+| **Augment** | `.md` rules | `bash scripts/install-platform.sh --platform augment` |
+| **Aider** | `CONVENTIONS.md` | `bash scripts/convert.sh --tool aider` |
+| **GitHub Copilot** | `copilot-instructions.md` | `bash scripts/convert.sh --tool copilot` |
+
+**Auto-detect all platforms:**
+```bash
+bash scripts/install-platform.sh
+# Detects which platforms are installed and copies skills to each
+```
+
 ## Quick Start
 
-### Windows (PowerShell)
+### Claude Code (Primary)
+
+**Windows (PowerShell):**
 ```powershell
 git clone https://github.com/YOUR_USERNAME/AgentMaster.git
 cd AgentMaster
 .\install.ps1
 ```
 
-### macOS / Linux / WSL
+**macOS / Linux / WSL:**
 ```bash
 git clone https://github.com/YOUR_USERNAME/AgentMaster.git
 cd AgentMaster
 bash install.sh
 ```
 
-The installer clones 4 dependency repos, copies all skills to `~/.claude/skills/`, and skips anything already installed.
+### Any Other Platform
+```bash
+git clone https://github.com/YOUR_USERNAME/AgentMaster.git
+cd AgentMaster
+bash scripts/install-platform.sh --platform codex    # or cursor, windsurf, etc.
+```
 
-**Start a new Claude Code session after installation.**
+### All Platforms at Once
+```bash
+bash scripts/install-platform.sh --platform all
+```
+
+The installer clones 4 dependency repos, converts skills to platform-specific formats, and skips anything already installed.
+
+**Restart your IDE/agent after installation.**
 
 ## How It Works
 
@@ -223,6 +269,37 @@ When `/caveman` is active, AgentMaster automatically:
 | Speed | 1x | 0.9x (10% routing overhead) |
 | Manual effort | High (pick skills yourself) | **None (auto-routes)** |
 
+## Repo Structure
+
+```
+AgentMaster/
+├── skills/                          # Source of truth (Claude Code format)
+│   ├── agent-master/SKILL.md        #   Meta-orchestrator (21 categories)
+│   ├── devops/SKILL.md              #   CI/CD, Docker, Terraform, deployment
+│   └── security-audit/SKILL.md      #   OWASP Top 10, vuln scanning
+│
+├── .cursor/rules/                   # Auto-generated Cursor format
+├── .windsurf/skills/                # Auto-generated Windsurf format
+├── .clinerules/                     # Auto-generated Cline format
+├── .codex/skills/                   # Auto-generated Codex format
+├── .gemini/skills/                  # Auto-generated Gemini CLI format
+├── .antigravity/skills/             # Auto-generated Antigravity format
+├── .opencode/skills/                # Auto-generated OpenCode format
+├── .augment/rules/                  # Auto-generated Augment format
+├── .github/copilot-instructions.md  # Auto-generated Copilot format
+├── CONVENTIONS.md                   # Auto-generated Aider format
+│
+├── scripts/
+│   ├── convert.sh                   # Generate platform files from skills/
+│   └── install-platform.sh          # Install to any platform's skill directory
+│
+├── install.sh                       # Claude Code full installer (+ dependencies)
+├── install.ps1                      # Claude Code full installer (Windows)
+└── uninstall.sh                     # Remove custom skills only
+```
+
+**Edit skills in `skills/` → run `bash scripts/convert.sh --tool all` → all platform files regenerate.**
+
 ## Uninstall
 
 ```bash
@@ -232,6 +309,13 @@ bash uninstall.sh
 # Nuclear option: remove everything
 rm -rf ~/.claude/skills/*
 ```
+
+## Contributing
+
+1. Edit SKILL.md files in `skills/` (source of truth)
+2. Run `bash scripts/convert.sh --tool all` to regenerate platform files
+3. Test with `/agent-master route <your task>` (dry-run mode)
+4. Commit and PR
 
 ## License
 
