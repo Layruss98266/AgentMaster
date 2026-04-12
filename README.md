@@ -317,6 +317,19 @@ rm -rf ~/.claude/skills/*
 3. Test with `/agent-master route <your task>` (dry-run mode)
 4. Commit and PR
 
+## Credits
+
+AgentMaster is built on top of these excellent open-source projects:
+
+| Project | Author | What It Provides |
+|---------|--------|-----------------|
+| [**caveman**](https://github.com/JuliusBrussee/caveman) | [Julius Brussee](https://github.com/JuliusBrussee) | Token compression (~75% savings), commit/review variants |
+| [**superpowers**](https://github.com/obra/superpowers) | [Jesse Vincent](https://github.com/obra) | Dev workflow (brainstorming, TDD, debugging, code review) |
+| [**claude-skills**](https://github.com/alirezarezvani/claude-skills) | [Alireza Rezvani](https://github.com/alirezarezvani) | 235+ domain skills (engineering, marketing, product, C-level, finance) |
+| [**claude-mem**](https://github.com/thedotmack/claude-mem) | [thedotmack](https://github.com/thedotmack) | Persistent session memory, smart-explore, knowledge agents |
+
+AgentMaster does not bundle or redistribute their code — the installer clones them at install time. All credit for those skills belongs to their respective authors.
+
 ## License
 
 MIT
