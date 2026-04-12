@@ -1,91 +1,61 @@
-# Claude Rules — Your Name (@your-github-username)
+# Custom Rules for Claude
 
-These rules are ABSOLUTE. Never skip. Never override. Check before every action.
+Define rules that Claude follows every session. Rules are read from `~/.claude/RULES.md` automatically.
 
-Copy this file to `~/.claude/RULES.md` and customize with your own values.
+## Setup
 
 ```bash
-cp RULES.example.md ~/.claude/RULES.md
-# Then edit ~/.claude/RULES.md with your info
+# Create your rules file
+touch ~/.claude/RULES.md
+
+# Open and add your rules
+nano ~/.claude/RULES.md
 ```
 
----
+## How It Works
 
-## 1. No AI Co-Author
-Never add `Co-Authored-By` lines to any commit message.
+- Claude reads `~/.claude/RULES.md` at the start of every session
+- Rules persist across all conversations
+- Add, remove, or edit rules anytime — changes apply on next session
+- Rules override default behavior
 
-## 2. Pre-Commit Checklist (NEVER SKIP)
-Before EVERY commit, verify ALL of these:
-- [ ] Run lint/build — zero errors
-- [ ] Scan for leaked secrets (API keys, tokens, passwords, .env values)
-- [ ] Verify functionality works (dev server, browser, CLI)
-- [ ] Update ALL doc refs:
-  - README.md (badges, counts, tables, descriptions)
-  - Help buttons/dialogs in UI
-  - Publishing guides
-  - Install/uninstall scripts
-  - Version numbers (manifest, package.json, help text)
-  - Repo structure trees in docs
-  - Feature counts, category counts
-  - Any user-facing text that references features, limits, or versions
+## Writing Rules
 
-**This is absolute. Never commit without checking every item above.**
+Rules are plain markdown. Write them as clear instructions. Be specific — vague rules get ignored.
 
-## 3. Only Commit, Never Push
-User pushes manually. Only commit. One-time exceptions only when user explicitly says so.
+### Example Rules File
 
-## 4. Auto-Updates
-<!-- Optional: configure auto-update behavior for your skill orchestrator -->
-When the orchestrator runs, pull latest from all dependency repos in background. Set a cooldown (e.g. 6 hours) to avoid spamming.
+```markdown
+# My Rules
 
-## 5. GitHub Username
-<!-- Replace with your GitHub username -->
-Username is **your-github-username**.
+## Git Workflow
+- Never push to remote. Only commit.
+- No AI co-author lines in commits.
+- Run tests before every commit.
 
-## 6. Suggest on Real Gaps
-When a real gap is hit (missing tool, skill, or capability), suggest best repos or technology to fill it. Don't wait to be asked.
+## Code Style
+- Use TypeScript strict mode.
+- Prefer functional components over class components.
+- Max file length: 300 lines.
 
-## 7. Skill Repos Organization
-When installing a new skill repo:
-<!-- Replace with your preferred path -->
-1. Move it to your skills folder (e.g. `~/projects/agent-skills/`)
-2. Ask before updating the orchestrator repo
-
-## 8. Best Free Sources First
-When building anything, use best free sources first (free APIs, open-source libs, free tiers). Then paid repos/resources. Don't default to paid solutions.
-
-## 9. Code Reviews: Blunt Mode
-When reviewing code:
-- State facts, no sugar coating
-- Every finding has file:line and a concrete fix
-- Rate by severity (Critical/High/Medium/Low)
-- End with one-line verdict
-
----
+## Reviews
+- Be direct. No filler. State problems with file:line references.
+- Rate issues by severity: Critical, High, Medium, Low.
 
 ## Project Paths
-<!-- Customize these paths for your setup -->
-- Coding root: `~/projects/`
-- Agent Skills: `~/projects/agent-skills/`
-- Orchestrator repo: `~/projects/AgentMaster/`
-- Claude skills: `~/.claude/skills/`
-- This file (local): `~/.claude/RULES.md`
+- Main projects: ~/dev/
+- Skills folder: ~/dev/skills/
 
----
+## Preferences
+- GitHub username: your-username
+- Default language: Python
+- Preferred framework: Next.js
+```
 
-## How to Use
+## Tips
 
-1. Copy this file to your Claude config:
-   ```bash
-   cp RULES.example.md ~/.claude/RULES.md
-   ```
-
-2. Edit `~/.claude/RULES.md` with your actual values:
-   - Replace `your-github-username` with your GitHub username
-   - Replace all paths with your actual project paths
-   - Add or remove rules as needed
-   - Remove HTML comments after filling in values
-
-3. Claude will automatically read `~/.claude/RULES.md` at the start of every session.
-
-4. To verify rules are loaded, ask Claude: "What rules do you have?"
+- **Be specific** — "use 2-space indentation" works better than "format code nicely"
+- **Use checklists** — "before committing, check: lint, secrets, docs" is enforceable
+- **Set paths** — tell Claude where your projects live so it doesn't ask every time
+- **Add preferences** — username, default tools, coding style saves repeated instructions
+- **Keep it short** — long rule files eat context window tokens every session
