@@ -49,7 +49,7 @@ Read the user's input. Match to ONE primary category:
 | **Build/Create** | build, create, implement, add feature, scaffold, new component | superpowers: `brainstorming` | `engineering-team` or `engineering` | Invoke `brainstorming` FIRST (hard gate) |
 | **Refactor** | refactor, restructure, reorganize, clean up code, extract, decouple | superpowers: `brainstorming` | `engineering-team` | Invoke `brainstorming` FIRST (design before refactor) |
 | **Debug/Fix** | bug, crash, error, failing, broken, fix, not working, exception, traceback | superpowers: `systematic-debugging` | `engineering-team` (relevant specialty) | Invoke `systematic-debugging` |
-| **Code Review** | review code, review PR, review my changes, check this diff, code review | superpowers: `requesting-code-review` | — | Invoke `requesting-code-review` |
+| **Code Review** | review code, review this code, review PR, review my changes, check this diff, code review, /codereview | — | `codereview` | Invoke `codereview` (blunt mode). For PR workflow reviews → `requesting-code-review` (superpowers). |
 | **Commit/Ship** | commit, merge, finish branch, ship, ready to merge, push | superpowers: `finishing-a-development-branch` | — | Invoke `finishing-a-development-branch` |
 | **Test** | write tests, add tests, TDD, test coverage, unit test, integration test | superpowers: `test-driven-development` | `engineering-team` | Invoke `test-driven-development` |
 | **Marketing** | blog, SEO, copywriting, campaign, email sequence, ads, social media, content marketing, landing page copy | — | `marketing-skill` | Invoke `marketing-skill` (marketing-ops routes internally) |
@@ -74,7 +74,7 @@ When a signal word matches multiple categories, use these rules:
 
 | Ambiguous Term | Default Category | Override When... |
 |----------------|-----------------|------------------|
-| **"review"** | Code Review | User mentions "marketing review", "content review", "brand review" → Marketing |
+| **"review"** | Code Review (`codereview`) | User mentions "review PR", "before merging" → `requesting-code-review` (superpowers workflow). "marketing review", "content review" → Marketing |
 | **"sprint"** | Project Mgmt | User mentions "sprint planning for features", "what to build next sprint" → Product |
 | **"roadmap"** | Strategy | User mentions "product roadmap", "feature roadmap" → Product |
 | **"landing page"** | Marketing | User mentions "build landing page", "implement landing page" → Build/Create + Marketing |
