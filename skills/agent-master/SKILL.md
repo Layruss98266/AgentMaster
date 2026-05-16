@@ -1,6 +1,6 @@
 ---
 name: agent-master
-description: "Meta-orchestrator that classifies tasks and routes to the right combination of installed skills across caveman (output compression), superpowers (dev workflow), and claude-skills (domain expertise). 22 routing categories including whole-codebase analysis via repomix-pack. Invoke with /agent-master. Use as default entry point for ambiguous or multi-domain requests."
+description: "Meta-orchestrator that classifies tasks and routes to the right combination of installed skills across caveman (output compression), superpowers (dev workflow), and claude-skills (domain expertise). 23 routing categories including whole-codebase analysis via repomix-pack and LLM/AI app dev. Invoke with /agent-master. Use as default entry point for ambiguous or multi-domain requests."
 ---
 
 # AgentMaster — Meta-Orchestrator
@@ -92,6 +92,7 @@ Read the user's input. Match to ONE primary category:
 | **Memory/History** | last time, previous session, how did we, did we already, past work, search memory, what did I do | — | `mem-search` | Invoke `mem-search`. For project timeline → `timeline-report`. For knowledge base → `knowledge-agent`. |
 | **Explore Codebase** | explore codebase, code structure, find functions, understand architecture, how is this organized | — | `smart-explore` | Invoke `smart-explore` (AST-based, token-efficient) |
 | **Whole-Codebase Analysis** | entire codebase, whole repo, across the project, full audit, full scan, architecture review, onboard me to this repo, refactor X across | — | `repomix-pack` → calling skill | Invoke `repomix-pack` FIRST to produce `.agentmaster/codebase.xml`, then route to the analysis skill (e.g. `security-audit`, `codereview`, `engineering-team`) which reads that file as input. |
+| **LLM/AI App Dev** | LLM app, AI app, RAG, vector DB, embeddings, agent pipeline, prompt engineering, LangChain, LlamaIndex, AI SDK, Vercel AI, fine-tune, AI backend | superpowers: `brainstorming` | `engineering-team` (senior-backend, senior-ai) | Invoke `brainstorming` FIRST. Reference `Tool-Stack-Reference/hub/tools-ai-infra.md` + `tools-ai-agents.md` for stack decisions. |
 | **Simple Question** | Direct factual question, no action needed | — | — | Answer directly. No routing. |
 
 ### Conflict Resolution (Tiebreakers)

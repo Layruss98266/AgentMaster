@@ -19,3 +19,9 @@ package-lock.json
 *.tmp
 *.bak
 *.log
+
+# Hub extraction intermediates (source HTML + generated JSON, keep only the markdown)
+Tool-Stack-Reference/master-hub.html
+Tool-Stack-Reference/hub-tools-out.json
+Tool-Stack-Reference/hub-tech-out.json
+Tool-Stack-Reference/hub-summary.json

@@ -8,8 +8,8 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Skills-41+-10B981?style=for-the-badge" alt="41+ Skills">
-  <img src="https://img.shields.io/badge/Categories-22-F59E0B?style=for-the-badge" alt="22 Categories">
+  <img src="https://img.shields.io/badge/Skills-42+-10B981?style=for-the-badge" alt="42+ Skills">
+  <img src="https://img.shields.io/badge/Categories-23-F59E0B?style=for-the-badge" alt="23 Categories">
   <img src="https://img.shields.io/badge/Platforms-11-6366F1?style=for-the-badge" alt="11 Platforms">
   <img src="https://img.shields.io/badge/Token_Savings-~75%25-EF4444?style=for-the-badge" alt="75% Token Savings">
 </p>
@@ -319,11 +319,22 @@ AgentMaster/
 │   ├── convert.sh                   # Generate platform files from skills/
 │   └── install-platform.sh          # Install to any platform's skill directory
 │
-├── Tool-Stack-Reference/            # 400+ tools across 24 categories (free/paid)
-│   ├── 01-frontend-development.md   #   Next.js, React, Tailwind, etc.
-│   ├── 02-backend-development.md    #   Node, FastAPI, PostgreSQL, etc.
-│   ├── ...                          #   22 more category files
+├── Tool-Stack-Reference/            # 1524 tools + 1767 tech items (free-first, no browser ext.)
+│   ├── 01-frontend-development.md   #   Next.js, React, Tailwind, etc. (curated)
+│   ├── ...                          #   23 more curated category files
 │   ├── 24-indian-startup-stack.md   #   India-specific tools (Razorpay, Zoho, etc.)
+│   ├── hub/                         #   Auto-generated from Master Dev Hub
+│   │   ├── README.md                #     Index of all 61 hub reference files
+│   │   ├── tools-ai-coding.md       #     143 AI coding tools (free-first)
+│   │   ├── tools-ai-agents.md       #     53 AI agents & automation tools
+│   │   ├── tools-ai-infra.md        #     42 AI infrastructure tools
+│   │   ├── tools-api-dev-tools.md   #     49 API & dev tools
+│   │   ├── ...                      #     28 more tool category files
+│   │   ├── tech-js-ts-packages.md   #     210 JS/TS packages
+│   │   ├── tech-python-packages.md  #     200 Python packages
+│   │   └── ...                      #     27 more tech category files
+│   ├── extract.js                   #   Hub data extractor (Node.js)
+│   ├── generate-md.js               #   Markdown generator from extracted JSON
 │   └── index.html                   #   Searchable HTML dashboard
 │
 ├── RULES.example.md                 # Custom rules template (copy to ~/.claude/RULES.md)
