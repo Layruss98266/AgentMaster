@@ -21,7 +21,7 @@ echo ""
 mkdir -p "$SKILLS_DIR"
 
 # 1. Install custom skills (agent-master, codereview, devops, security-audit)
-echo "[1/6] Installing custom skills..."
+echo "[1/7] Installing custom skills..."
 for skill_dir in "$SCRIPT_DIR/skills/"*/; do
   skill_name=$(basename "$skill_dir")
   if [ -f "$skill_dir/SKILL.md" ]; then
@@ -32,7 +32,7 @@ done
 
 # 2. Clone and install caveman (token compression)
 echo ""
-echo "[2/6] Installing caveman (token compression)..."
+echo "[2/7] Installing caveman (token compression)..."
 if [ ! -d "$SKILLS_DIR/caveman" ]; then
   TMP=$(mktemp -d)
   trap 'rm -rf "$TMP"' EXIT
@@ -47,7 +47,7 @@ fi
 
 # 3. Clone and install superpowers (dev workflow)
 echo ""
-echo "[3/6] Installing superpowers (dev workflow)..."
+echo "[3/7] Installing superpowers (dev workflow)..."
 if [ ! -d "$SKILLS_DIR/brainstorming" ]; then
   TMP=$(mktemp -d)
   trap 'rm -rf "$TMP"' EXIT
@@ -62,7 +62,7 @@ fi
 
 # 4. Clone and install claude-skills (domain expertise)
 echo ""
-echo "[4/6] Installing claude-skills (domain expertise)..."
+echo "[4/7] Installing claude-skills (domain expertise)..."
 if [ ! -d "$SKILLS_DIR/engineering-team" ]; then
   TMP=$(mktemp -d)
   trap 'rm -rf "$TMP"' EXIT
@@ -82,7 +82,7 @@ fi
 
 # 5. Install claude-mem (session memory) - skills only
 echo ""
-echo "[5/6] Installing claude-mem skills (session memory)..."
+echo "[5/7] Installing claude-mem skills (session memory)..."
 if [ ! -d "$SKILLS_DIR/mem-search" ]; then
   TMP=$(mktemp -d)
   trap 'rm -rf "$TMP"' EXIT
@@ -95,9 +95,20 @@ else
   echo "  ~ claude-mem skills already installed, skipping"
 fi
 
-# 6. Set up auto-update cache
+# 6. Repomix CLI (for repomix-pack skill)
 echo ""
-echo "[6/6] Setting up auto-update cache..."
+echo "[6/7] Installing repomix CLI..."
+if command -v repomix >/dev/null 2>&1; then
+  echo "  ~ repomix already installed"
+elif command -v npm >/dev/null 2>&1; then
+  npm install -g repomix >/dev/null 2>&1 && echo "  + repomix installed globally" || echo "  ! repomix install failed — run manually: npm install -g repomix"
+else
+  echo "  ! npm not found — install Node.js then run: npm install -g repomix"
+fi
+
+# 7. Set up auto-update cache
+echo ""
+echo "[7/7] Setting up auto-update cache..."
 CACHE_DIR="$HOME/.claude/.agentmaster-cache"
 mkdir -p "$CACHE_DIR"
 if [ ! -d "$CACHE_DIR/agent-master/.git" ]; then

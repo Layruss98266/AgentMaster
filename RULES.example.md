@@ -52,6 +52,32 @@ Rules are plain markdown. Write them as clear instructions. Be specific — vagu
 - Preferred framework: Next.js
 ```
 
+## AgentMaster
+
+Copy this block into your `~/.claude/RULES.md` to enforce consistent AgentMaster behavior across all sessions:
+
+```markdown
+## AgentMaster Rules
+
+### Session Bootstrap
+- On the first message of every session, invoke /agent-master if the working directory contains a code repo (.git, package.json, pyproject.toml, Cargo.toml, or go.mod).
+- This triggers repomix-pack to snapshot the codebase to .agentmaster/codebase.xml so downstream skills have whole-repo context without re-reading files.
+- Only skip bootstrap if the user explicitly says "skip repomix" or the directory is not a repo.
+
+### Routing
+- Default entry point for all multi-step or ambiguous tasks is /agent-master — never pick skills manually for these.
+- For simple, clearly scoped tasks (single file, direct question) invoke the skill directly.
+- Never chain more than 2 domain skills without asking the user to narrow scope first.
+
+### Repomix Snapshots
+- Always use .agentmaster/codebase.xml as input for whole-repo tasks (security audit, architecture review, full code review) instead of re-reading individual files.
+- Force a re-pack with /agent-master repomix refresh when code changes significantly mid-session.
+
+### Memory
+- Use /mem-search before starting any task that might duplicate prior work ("did we already solve this?").
+- Use /timeline-report for project history questions, not git log.
+```
+
 ## Tips
 
 - **Be specific** — "use 2-space indentation" works better than "format code nicely"

@@ -9,7 +9,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Skills-41+-10B981?style=for-the-badge" alt="41+ Skills">
-  <img src="https://img.shields.io/badge/Categories-21-F59E0B?style=for-the-badge" alt="21 Categories">
+  <img src="https://img.shields.io/badge/Categories-22-F59E0B?style=for-the-badge" alt="22 Categories">
   <img src="https://img.shields.io/badge/Platforms-11-6366F1?style=for-the-badge" alt="11 Platforms">
   <img src="https://img.shields.io/badge/Token_Savings-~75%25-EF4444?style=for-the-badge" alt="75% Token Savings">
 </p>
@@ -243,12 +243,30 @@ When words match multiple categories, AgentMaster resolves automatically:
 
 | Source | What | Skills |
 |--------|------|--------|
-| **This repo** | Orchestrator + custom skills | `agent-master`, `devops`, `security-audit`, `codereview` |
+| **This repo** | Orchestrator + custom skills | `agent-master`, `devops`, `security-audit`, `codereview`, `repomix-pack` |
 | [caveman](https://github.com/JuliusBrussee/caveman) | Token compression | `caveman`, `caveman-commit`, `caveman-review`, `caveman-help`, `compress` |
 | [superpowers](https://github.com/obra/superpowers) | Dev workflow | `brainstorming`, `writing-plans`, `test-driven-development`, `systematic-debugging`, +10 more |
 | [claude-skills](https://github.com/alirezarezvani/claude-skills) | Domain expertise | `engineering-team`, `marketing-skill`, `product-team`, `c-level-advisor`, `finance`, +5 more |
 | [claude-mem](https://github.com/thedotmack/claude-mem) | Session memory | `mem-search`, `smart-explore`, `knowledge-agent`, `make-plan`, `do`, `timeline-report`, `version-bump` |
-| **Total** | | **41 skills** |
+| **Total** | | **42 skills** |
+
+### Whole-Codebase Snapshots (Repomix)
+
+`repomix-pack` wraps [repomix](https://github.com/yamadashy/repomix) so any skill can analyze the entire repo cheaply.
+
+**Auto-runs at the start of every new session** when AgentMaster detects a code repo (`.git/`, `package.json`, `pyproject.toml`, `Cargo.toml`, or `go.mod` present). The snapshot lives at `.agentmaster/codebase.xml` and is reused by `security-audit`, `codereview`, and `engineering-team` for whole-repo analysis. Has a built-in staleness check so it only re-packs when source files change.
+
+```bash
+# Manual control
+/agent-master repomix              # pack now
+/agent-master repomix refresh      # force re-pack
+/agent-master repomix include src/**
+"skip repomix"                     # disable for this session
+```
+
+Requires `npm install -g repomix` (the installer does this automatically).
+
+> **Note on Mem0:** Mem0 was evaluated and intentionally **not** added — `claude-mem` (already bundled via `mem-search`, `knowledge-agent`, `timeline-report`) covers the same persistent-memory use case locally without an extra API key or cloud dependency.
 
 ## Loop Prevention
 
@@ -280,9 +298,10 @@ When `/caveman` is active, AgentMaster automatically:
 ```
 AgentMaster/
 ├── skills/                          # Source of truth (Claude Code format)
-│   ├── agent-master/SKILL.md        #   Meta-orchestrator (21 categories)
+│   ├── agent-master/SKILL.md        #   Meta-orchestrator (22 categories)
 │   ├── codereview/SKILL.md          #   Blunt code review (/codereview)
 │   ├── devops/SKILL.md              #   CI/CD, Docker, Terraform, deployment
+│   ├── repomix-pack/SKILL.md        #   Whole-codebase snapshot via repomix
 │   └── security-audit/SKILL.md      #   OWASP Top 10, vuln scanning
 │
 ├── .cursor/rules/                   # Auto-generated Cursor format
