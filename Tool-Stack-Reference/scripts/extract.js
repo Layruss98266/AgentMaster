@@ -45,6 +45,7 @@ try {
   const toolsData = extractJSON('window.__TOOLS_DATA__');
   // __TOOLS_DATA__ may be {tools:[...]} object or a plain array
   const tools = Array.isArray(toolsData) ? toolsData : (toolsData.tools || toolsData.data || Object.values(toolsData)[0]);
+  if (!Array.isArray(tools)) throw new Error('Could not unwrap tools array from TOOLS_DATA — got: ' + typeof tools + ' (keys: ' + Object.keys(toolsData).join(', ') + ')');
   process.stderr.write('Got ' + tools.length + ' tools\n');
 
   process.stderr.write('Extracting TECH_DATA...\n');

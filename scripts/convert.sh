@@ -22,7 +22,18 @@ SKILLS_DIR="$REPO_DIR/skills"
 TOOL="${1#--tool=}"
 TOOL="${TOOL#--tool }"
 [ "$1" = "--tool" ] && TOOL="$2"
+[ "$1" = "--all" ] && TOOL="all"
 [ -z "$TOOL" ] && TOOL="all"
+
+# Validate --tool value
+case "$TOOL" in
+  cursor|windsurf|cline|codex|gemini|antigravity|opencode|augment|aider|copilot|all) ;;
+  *)
+    echo "Error: unknown --tool value: '$TOOL'" >&2
+    echo "Valid: cursor windsurf cline codex gemini antigravity opencode augment aider copilot all" >&2
+    exit 1
+    ;;
+esac
 
 # Extract YAML frontmatter field
 extract_field() {

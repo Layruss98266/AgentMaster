@@ -94,7 +94,7 @@ bash scripts/install-platform.sh --platform codex    # or cursor, windsurf, etc.
 bash scripts/install-platform.sh --platform all
 ```
 
-The installer clones 4 dependency repos, converts skills to platform-specific formats, and skips anything already installed.
+The installer clones 5 dependency repos, converts skills to platform-specific formats, and skips anything already installed.
 
 **Restart your IDE/agent after installation.**
 
@@ -134,7 +134,7 @@ No manual skill selection. No guessing. No loading 5 skills when you need 1.
 
 ### Auto-Update
 
-AgentMaster automatically pulls latest versions from all 4 dependency repos on first invoke each session (background, non-blocking). Has a 6-hour cooldown to avoid spamming GitHub. Use `/agent-master update` to force an immediate sync.
+AgentMaster automatically pulls latest versions from all 5 dependency repos on first invoke each session (background, non-blocking). Has a 6-hour cooldown to avoid spamming GitHub. Use `/agent-master update` to force an immediate sync.
 
 ### Dry-Run Example
 

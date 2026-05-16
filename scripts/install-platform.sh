@@ -6,6 +6,7 @@
 #   bash scripts/install-platform.sh                    # auto-detect
 #   bash scripts/install-platform.sh --platform cursor   # specific platform
 #   bash scripts/install-platform.sh --platform all      # install to all detected platforms
+# Note: aider and copilot use aggregate files — run: bash scripts/convert.sh --tool aider|copilot
 
 set -e
 
@@ -21,9 +22,9 @@ PLATFORM="${PLATFORM#--platform }"
 detect_platforms() {
   local found=()
   [ -d "$HOME/.claude" ] && found+=("claude-code")
-  [ -d "$HOME/.cursor" ] || [ -d ".cursor" ] && found+=("cursor")
-  [ -d "$HOME/.windsurf" ] || [ -d ".windsurf" ] && found+=("windsurf")
-  [ -d "$HOME/.cline" ] || [ -d ".clinerules" ] && found+=("cline")
+  if [ -d "$HOME/.cursor" ] || [ -d ".cursor" ]; then found+=("cursor"); fi
+  if [ -d "$HOME/.windsurf" ] || [ -d ".windsurf" ]; then found+=("windsurf"); fi
+  if [ -d "$HOME/.cline" ] || [ -d ".clinerules" ]; then found+=("cline"); fi
   [ -d "$HOME/.codex" ] && found+=("codex")
   [ -d "$HOME/.gemini" ] && found+=("gemini")
   [ -d "$HOME/.antigravity" ] && found+=("antigravity")
@@ -73,6 +74,11 @@ install_skills() {
     augment)
       target_dir=".augment/rules"
       format="augment"
+      ;;
+    aider|copilot)
+      echo "  ! '$platform' uses aggregate files, not platform dirs."
+      echo "    Use: bash scripts/convert.sh --tool $platform"
+      return 1
       ;;
     *)
       echo "  ! Unknown platform: $platform"

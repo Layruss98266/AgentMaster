@@ -9,7 +9,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
   echo "Usage: bash install.sh"
-  echo "Installs AgentMaster skills + 4 dependency repos to ~/.claude/skills/"
+  echo "Installs AgentMaster skills + 5 dependency repos to ~/.claude/skills/"
   exit 0
 fi
 
@@ -112,8 +112,7 @@ echo "[7/7] Setting up auto-update cache..."
 CACHE_DIR="$HOME/.claude/.agentmaster-cache"
 mkdir -p "$CACHE_DIR"
 if [ ! -d "$CACHE_DIR/agent-master/.git" ]; then
-  cp -r "$SCRIPT_DIR" "$CACHE_DIR/agent-master" 2>/dev/null || \
-    git clone --depth 1 https://github.com/Surya8991/AgentMaster.git "$CACHE_DIR/agent-master" 2>/dev/null
+  git clone --depth 1 https://github.com/Surya8991/AgentMaster.git "$CACHE_DIR/agent-master" 2>/dev/null
   echo "  + auto-update cache initialized"
 else
   echo "  ~ cache already exists"

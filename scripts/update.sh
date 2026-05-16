@@ -26,7 +26,7 @@ log() { [ "$QUIET" != "--quiet" ] && echo "$@" || true; }
 
 # Prevent concurrent updates
 if [ -f "$LOCK_FILE" ]; then
-  lock_age=$(( $(date +%s) - $(stat -c %Y "$LOCK_FILE" 2>/dev/null || stat -f %m "$LOCK_FILE" 2>/dev/null || echo 0) ))
+  lock_age=$(( $(date +%s) - $(date -r "$LOCK_FILE" +%s 2>/dev/null || echo 0) ))
   if [ "$lock_age" -lt 300 ]; then
     log "Update already running. Skipping."
     exit 0
