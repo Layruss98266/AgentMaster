@@ -338,7 +338,8 @@ AgentMaster/
 │   └── index.html                   #   Searchable HTML dashboard
 │
 ├── agents.md                        # Agent context file (read first every session)
-├── RULES.md                 # Custom rules template (copy to ~/.claude/RULES.md)
+├── RULES.md                 # Active project rules — loaded by AgentMaster on session start
+├── RULES.example.md         # Instructional template with placeholders (copy + customize)
 ├── install.sh                       # Claude Code full installer (+ dependencies)
 ├── install.ps1                      # Claude Code full installer (Windows)
 └── uninstall.sh                     # Remove custom skills only
@@ -359,16 +360,25 @@ rm -rf ~/.claude/skills/*
 
 ## Custom Rules
 
-AgentMaster includes a rules file that Claude reads every session — enforcing your commit workflow, code review style, and project conventions.
+Two rules files — one active, one template:
+
+| File | Purpose |
+|------|---------|
+| `RULES.md` | **Active rules** — loaded by AgentMaster at session start when present in repo root |
+| `RULES.example.md` | **Template** — instructional copy with placeholders, copy and customize |
+
+AgentMaster reads `RULES.md` from the repo root on first invocation each session. Rules defined there govern commit style, output style, paths, workflow, and agent behavior for that session.
 
 ```bash
-# Copy the example to your Claude config
-cp RULES.md ~/.claude/RULES.md
+# Set up global rules (applies to all sessions)
+cp RULES.example.md ~/.claude/RULES.md
+# Edit: replace [YOUR_GITHUB_USERNAME], [YOUR_PROJECTS_DIR], etc.
 
-# Edit with your GitHub username, paths, and preferences
+# Project-level rules (applies only in this repo)
+# Already present as RULES.md — edit directly
 ```
 
-See [`RULES.md`](RULES.md) for the full template.
+See [`RULES.example.md`](RULES.example.md) for the full annotated template.
 
 ## Contributing
 

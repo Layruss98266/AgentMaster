@@ -39,6 +39,23 @@ Bootstrap is non-blocking — proceed with the user's actual task immediately af
 User can disable for a session by saying "skip repomix" — record that and don't re-trigger this session.
 
 
+## Per-Session Rules Load
+
+On **first invocation each session**, check for a project-level `RULES.md` in the current working directory:
+
+```
+1. Check: test -f RULES.md
+2. If found: read the file and apply all rules it contains for this session.
+   These rules govern commit style, output style, paths, workflow — everything.
+3. If not found: skip silently. No error, no prompt.
+4. Rules load ONCE per session alongside repomix bootstrap.
+```
+
+Project `RULES.md` takes precedence over defaults for this session. Use it to encode per-repo conventions (branch naming, test commands, env vars, agent gotchas) without touching the global skill.
+
+User can point to a different file by saying "load rules from [path]".
+
+
 ## Argument Parsing
 
 Check ARGUMENTS for sub-commands:
