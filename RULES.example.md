@@ -30,7 +30,7 @@
 
 ## Code Quality
 - Before marking a task done: no console.log/print debris, no commented-out code, no untracked TODOs.
-- New files get a corresponding test file unless explicitly told otherwise.
+- New source/logic files (functions, classes, modules) get a test file. Scripts, configs, docs, and agent context files exempt.
 - No dead imports, no unused variables left behind.
 - In bash with `set -e`: never use bare `cd dir` + later `cd -`. Use `git -C dir cmd`, subshells `(cd dir && cmd)`, or pushd/popd instead.
 - Scripts must use relative paths (`__dirname`, `$(dirname "$0")`, `path.join`) not hardcoded absolute paths. Absolute paths break on every other machine.
@@ -54,15 +54,14 @@
 - Never silently skip a step — if blocked, say so.
 
 ## Session Efficiency
-- Session start: run /mem-search + git status before diving in.
+- Session start: invoke /agent-master first (handles repomix + context load), then git status. /mem-search only if task might duplicate prior work.
 - Task >3 steps: show plan first, wait for go-ahead.
 - Reuse .agentmaster/codebase.xml — don't re-read files already in the snapshot.
 - Before running any script with flags, run `--help` first. Never assume flag format.
 
 ## Verification
-- Always run /verification-before-completion before claiming any task is done, fixed, or passing.
-- No completion claims without fresh evidence — run the actual command, show the output.
-- Applies to: commits, PRs, bug fixes, test passes, build success. No exceptions.
+- Before claiming done: run the actual command, show output. Use /verification-before-completion if installed — otherwise manually confirm: tests pass, no lint errors, output matches expectation.
+- No completion claims without fresh evidence. Applies to: commits, PRs, bug fixes, test passes, build success. No exceptions.
 - After running any generator/converter script, verify output with grep/wc — don't trust exit 0 alone.
 
 ## Parallel Agents
