@@ -64,6 +64,13 @@
 - No completion claims without fresh evidence. Applies to: commits, PRs, bug fixes, test passes, build success. No exceptions.
 - After running any generator/converter script, verify output with grep/wc — don't trust exit 0 alone.
 
+## Token Hygiene
+- Never read a whole file to find a symbol/section. Grep first to get line number, then Read with offset+limit.
+- After Edit/Write succeeds, don't re-read to verify. Tool failure is explicit — if it didn't error, it worked.
+- Run /compact proactively in long sessions (many files read, multiple tasks done). Don't wait for forced compaction.
+- Run `git diff --stat` before `git diff`. For large diffs, read specific files not the full diff output.
+- Use Grep `files_with_matches` mode when you only need to know which files, not the content. Switch to `content` only when you need the lines.
+
 ## Parallel Agents
 - For 2+ independent subtasks (separate bugs, separate files, separate modules) — use /dispatching-parallel-agents.
 - Never work sequentially when parallel is possible — wastes time and tokens.
