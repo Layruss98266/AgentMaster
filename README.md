@@ -338,7 +338,7 @@ AgentMaster/
 │   └── index.html                   #   Searchable HTML dashboard
 │
 ├── agents.md                        # Agent context file (read first every session)
-├── RULES.example.md                 # Custom rules template (copy to ~/.claude/RULES.md)
+├── RULES.md                 # Custom rules template (copy to ~/.claude/RULES.md)
 ├── install.sh                       # Claude Code full installer (+ dependencies)
 ├── install.ps1                      # Claude Code full installer (Windows)
 └── uninstall.sh                     # Remove custom skills only
@@ -363,12 +363,12 @@ AgentMaster includes a rules file that Claude reads every session — enforcing 
 
 ```bash
 # Copy the example to your Claude config
-cp RULES.example.md ~/.claude/RULES.md
+cp RULES.md ~/.claude/RULES.md
 
 # Edit with your GitHub username, paths, and preferences
 ```
 
-See [`RULES.example.md`](RULES.example.md) for the full template.
+See [`RULES.md`](RULES.md) for the full template.
 
 ## Contributing
 
