@@ -336,6 +336,7 @@ AgentMaster/
 │   ├── README.md                    #   Workflow: how to use + how to regenerate
 │   └── index.html                   #   Searchable HTML dashboard
 │
+├── agents.md                        # Agent context file (read first every session)
 ├── RULES.example.md                 # Custom rules template (copy to ~/.claude/RULES.md)
 ├── install.sh                       # Claude Code full installer (+ dependencies)
 ├── install.ps1                      # Claude Code full installer (Windows)
