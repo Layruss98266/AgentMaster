@@ -78,6 +78,18 @@ Copy this block into your `~/.claude/RULES.md` to enforce consistent AgentMaster
 - Use /timeline-report for project history questions, not git log.
 ```
 
+## Project Agents File
+
+Add this rule to ensure every project gets an `agents.md` context file:
+
+```markdown
+## Project Agents File
+- Every project gets an `agents.md` at the repo root on first session.
+- Contents: project overview, stack, key dirs/files, how to run/build/test, env vars needed, agent-specific notes (what to avoid, what's sensitive, known gotchas).
+- Keep it updated — whenever architecture changes, add a feature, or change the stack, update agents.md in the same commit.
+- If `agents.md` already exists, read it before doing anything else in that project.
+```
+
 ## Tips
 
 - **Be specific** — "use 2-space indentation" works better than "format code nicely"

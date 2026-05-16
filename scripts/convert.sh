@@ -36,6 +36,15 @@ extract_body() {
   awk 'BEGIN{c=0} /^---$/{c++; next} c>=2{print}' "$file"
 }
 
+# Initialize aggregate format files (always regenerate — prevents stale content)
+if [ "$TOOL" = "aider" ] || [ "$TOOL" = "all" ]; then
+  : > "$REPO_DIR/CONVENTIONS.md"
+fi
+if [ "$TOOL" = "copilot" ] || [ "$TOOL" = "all" ]; then
+  mkdir -p "$REPO_DIR/.github"
+  : > "$REPO_DIR/.github/copilot-instructions.md"
+fi
+
 # Process each skill
 for skill_dir in "$SKILLS_DIR"/*/; do
   [ ! -f "$skill_dir/SKILL.md" ] && continue
@@ -144,8 +153,7 @@ AUG_EOF
 
   # ---- Aider (appends to CONVENTIONS.md) ----
   if [ "$TOOL" = "aider" ] || [ "$TOOL" = "all" ]; then
-    if [ ! -f "$REPO_DIR/CONVENTIONS.md" ] || ! grep -q "## ${name}" "$REPO_DIR/CONVENTIONS.md" 2>/dev/null; then
-      cat >> "$REPO_DIR/CONVENTIONS.md" <<AIDER_EOF
+    cat >> "$REPO_DIR/CONVENTIONS.md" <<AIDER_EOF
 
 ---
 
@@ -154,23 +162,19 @@ AUG_EOF
 
 $body
 AIDER_EOF
-      echo "  + CONVENTIONS.md (appended ${skill_name})"
-    fi
+    echo "  + CONVENTIONS.md (appended ${skill_name})"
   fi
 
   # ---- GitHub Copilot (appends to copilot-instructions.md) ----
   if [ "$TOOL" = "copilot" ] || [ "$TOOL" = "all" ]; then
-    mkdir -p "$REPO_DIR/.github"
-    if [ ! -f "$REPO_DIR/.github/copilot-instructions.md" ] || ! grep -q "## ${name}" "$REPO_DIR/.github/copilot-instructions.md" 2>/dev/null; then
-      cat >> "$REPO_DIR/.github/copilot-instructions.md" <<COPILOT_EOF
+    cat >> "$REPO_DIR/.github/copilot-instructions.md" <<COPILOT_EOF
 
 ## ${name}
 ${desc}
 
 $body
 COPILOT_EOF
-      echo "  + .github/copilot-instructions.md (appended ${skill_name})"
-    fi
+    echo "  + .github/copilot-instructions.md (appended ${skill_name})"
   fi
 
 done

@@ -19,6 +19,22 @@ If the cache directory doesn't exist yet, skip the update silently — the insta
 This pulls latest versions of caveman, superpowers, claude-skills, claude-mem, and AgentMaster itself. Has a 6-hour cooldown so it won't re-run repeatedly.
 
 
+## Per-Session Bootstrap: Repomix Snapshot
+
+On the **first invocation each session** AND when the current working directory looks like a code repo (presence of `.git/`, `package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod`, or similar), trigger a repomix snapshot so downstream skills can read whole-codebase context cheaply.
+
+```
+1. Detect repo: test -d .git || test -f package.json || test -f pyproject.toml || test -f Cargo.toml || test -f go.mod
+2. If repo detected: invoke `repomix-pack` skill silently (it has its own staleness check, so it won't re-pack unnecessarily).
+3. If NOT a repo (e.g. user's home directory, empty folder): skip silently. Do NOT prompt.
+4. Bootstrap runs ONCE per session. Track via a marker file: ~/.claude/.agentmaster-cache/session-<date>-bootstrap.done
+```
+
+Bootstrap is non-blocking — proceed with the user's actual task immediately after invoking `repomix-pack`. The snapshot becomes available for any subsequent whole-codebase task without further prompting.
+
+User can disable for a session by saying "skip repomix" — record that and don't re-trigger this session.
+
+
 ## Argument Parsing
 
 Check ARGUMENTS for sub-commands:
@@ -26,6 +42,7 @@ Check ARGUMENTS for sub-commands:
 - If ARGUMENTS starts with `route `: extract the rest as a query. Run **dry-run mode** (Step 5a) — classify and show routing plan WITHOUT executing.
 - If ARGUMENTS equals `status`: run **status mode** (Step 5b) — show current session state.
 - If ARGUMENTS equals `update`: run update script in **foreground** — `bash ~/.claude/.agentmaster-cache/agent-master/scripts/update.sh`
+- If ARGUMENTS starts with `repomix`: forward the remaining args to the `repomix-pack` skill directly (e.g. `repomix refresh`, `repomix include src/**`).
 - Otherwise: treat ARGUMENTS as the task to classify and execute.
 
 
@@ -66,6 +83,8 @@ Read the user's input. Match to ONE primary category:
 | **Research** | research, investigate, analyze market, competitor analysis, deep dive, explore topic | — | `anthropic-skills:deep-research` | Invoke `anthropic-skills:deep-research` |
 | **Memory/History** | last time, previous session, how did we, did we already, past work, search memory, what did I do | — | `mem-search` | Invoke `mem-search`. For project timeline → `timeline-report`. For knowledge base → `knowledge-agent`. |
 | **Explore Codebase** | explore codebase, code structure, find functions, understand architecture, how is this organized | — | `smart-explore` | Invoke `smart-explore` (AST-based, token-efficient) |
+| **Whole-Codebase Analysis** | entire codebase, whole repo, across the project, full audit, full scan, architecture review, onboard me to this repo, refactor X across | — | `repomix-pack` → calling skill | Invoke `repomix-pack` FIRST to produce `.agentmaster/codebase.xml`, then route to the analysis skill (e.g. `security-audit`, `codereview`, `engineering-team`) which reads that file as input. |
+| **LLM/AI App Dev** | LLM app, AI app, RAG, vector DB, embeddings, agent pipeline, prompt engineering, LangChain, LlamaIndex, AI SDK, Vercel AI, fine-tune, AI backend | superpowers: `brainstorming` | `engineering-team` (senior-backend, senior-ai) | Invoke `brainstorming` FIRST. Reference `Tool-Stack-Reference/hub/tools-ai-infra.md` + `tools-ai-agents.md` for stack decisions. |
 | **Simple Question** | Direct factual question, no action needed | — | — | Answer directly. No routing. |
 
 ### Conflict Resolution (Tiebreakers)
@@ -118,6 +137,7 @@ If the task spans multiple categories, apply these combination rules:
 | **Security + Compliance** | `security-audit` + `ra-qm-team`. Example: "SOC2 security audit" → both skills |
 | **Security + DevOps** | `security-audit` for app-level + `devops` for infra-level. Example: "Harden our production setup" |
 | **UI/UX + Code** | `anthropic-skills:ui-ux-pro-max` for design decisions, then superpowers workflow to implement |
+| **Repomix + Audit/Review** | `repomix-pack` first to snapshot the repo, then `security-audit` / `codereview` / `engineering-team` reads `.agentmaster/codebase.xml`. Use whenever the analysis must cover the whole repo, not a diff. |
 
 ### Hard Limit
 
@@ -188,7 +208,7 @@ Active workflow: [superpowers stage or "none"]
 Available domains: engineering-team, marketing-skill, c-level-advisor,
                    product-team, finance, business-growth,
                    project-management, ra-qm-team, devops, security-audit
-Custom skills:     codereview
+Custom skills:     codereview, repomix-pack
 Memory/Explore:    mem-search, smart-explore, knowledge-agent, timeline-report, make-plan
 Built-in skills:   anthropic-skills:docx, pdf, pptx, xlsx, deep-research, ui-ux-pro-max
 ```

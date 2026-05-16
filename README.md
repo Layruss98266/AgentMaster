@@ -182,7 +182,7 @@ Three layers that **stack, never compete**:
 
 ## Routing Table
 
-### 21 Categories
+### 23 Categories
 
 | Category | Signal Words | Routes To |
 |----------|-------------|-----------|
@@ -298,7 +298,7 @@ When `/caveman` is active, AgentMaster automatically:
 ```
 AgentMaster/
 ├── skills/                          # Source of truth (Claude Code format)
-│   ├── agent-master/SKILL.md        #   Meta-orchestrator (22 categories)
+│   ├── agent-master/SKILL.md        #   Meta-orchestrator (23 categories)
 │   ├── codereview/SKILL.md          #   Blunt code review (/codereview)
 │   ├── devops/SKILL.md              #   CI/CD, Docker, Terraform, deployment
 │   ├── repomix-pack/SKILL.md        #   Whole-codebase snapshot via repomix
@@ -320,11 +320,8 @@ AgentMaster/
 │   └── install-platform.sh          # Install to any platform's skill directory
 │
 ├── Tool-Stack-Reference/            # 1524 tools + 1767 tech items (free-first, no browser ext.)
-│   ├── 01-frontend-development.md   #   Next.js, React, Tailwind, etc. (curated)
-│   ├── ...                          #   23 more curated category files
-│   ├── 24-indian-startup-stack.md   #   India-specific tools (Razorpay, Zoho, etc.)
-│   ├── hub/                         #   Auto-generated from Master Dev Hub
-│   │   ├── README.md                #     Index of all 61 hub reference files
+│   ├── hub/                         #   Auto-generated from Master Dev Hub (committed)
+│   │   ├── README.md                #     Index of all 62 hub reference files
 │   │   ├── tools-ai-coding.md       #     143 AI coding tools (free-first)
 │   │   ├── tools-ai-agents.md       #     53 AI agents & automation tools
 │   │   ├── tools-ai-infra.md        #     42 AI infrastructure tools
@@ -333,8 +330,10 @@ AgentMaster/
 │   │   ├── tech-js-ts-packages.md   #     210 JS/TS packages
 │   │   ├── tech-python-packages.md  #     200 Python packages
 │   │   └── ...                      #     27 more tech category files
-│   ├── extract.js                   #   Hub data extractor (Node.js)
-│   ├── generate-md.js               #   Markdown generator from extracted JSON
+│   ├── scripts/                     #   Regeneration scripts (run when hub HTML updates)
+│   │   ├── extract.js               #     Parse master-hub.html → JSON intermediates
+│   │   └── generate-md.js           #     JSON intermediates → hub/*.md files
+│   ├── README.md                    #   Workflow: how to use + how to regenerate
 │   └── index.html                   #   Searchable HTML dashboard
 │
 ├── RULES.example.md                 # Custom rules template (copy to ~/.claude/RULES.md)

@@ -3,7 +3,7 @@ name: "devops"
 description: "DevOps engineering skill for CI/CD pipelines, Docker/containerization, deployment strategies, infrastructure as code, cloud services, and production operations. Use when task involves deploying, containerizing, setting up pipelines, managing infrastructure, or production debugging."
 risk: low
 source: community
-date_added: 2026-04-12
+date_added: 2026-05-16
 ---
 
 # DevOps Engineer

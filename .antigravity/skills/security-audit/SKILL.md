@@ -3,7 +3,7 @@ name: "security-audit"
 description: "Security auditing skill for web applications and codebases. Scans for OWASP Top 10, dependency vulnerabilities, secrets exposure, XSS/CSRF/injection flaws, auth weaknesses, and misconfigurations. Use when task involves security scan, vulnerability assessment, pen test review, threat modeling, or hardening a codebase."
 risk: low
 source: community
-date_added: 2026-04-12
+date_added: 2026-05-16
 ---
 
 # Security Auditor

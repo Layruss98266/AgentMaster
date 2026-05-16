@@ -56,12 +56,10 @@ update_repo() {
   local cache_path="$CACHE_DIR/$name"
 
   if [ -d "$cache_path/.git" ]; then
-    # Pull latest
-    cd "$cache_path"
-    local before=$(git rev-parse HEAD 2>/dev/null || echo "none")
-    git pull --ff-only --quiet 2>/dev/null || git fetch --quiet 2>/dev/null
-    local after=$(git rev-parse HEAD 2>/dev/null || echo "none")
-    cd - >/dev/null
+    # Pull latest (use git -C to avoid cd + set -e interaction)
+    local before=$(git -C "$cache_path" rev-parse HEAD 2>/dev/null || echo "none")
+    git -C "$cache_path" pull --ff-only --quiet 2>/dev/null || git -C "$cache_path" fetch --quiet 2>/dev/null
+    local after=$(git -C "$cache_path" rev-parse HEAD 2>/dev/null || echo "none")
 
     if [ "$before" = "$after" ]; then
       log "  $name: up to date"
@@ -112,11 +110,9 @@ update_repo "claude-mem" \
 
 # Update AgentMaster itself
 if [ -d "$CACHE_DIR/agent-master/.git" ]; then
-  cd "$CACHE_DIR/agent-master"
-  local_before=$(git rev-parse HEAD 2>/dev/null || echo "none")
-  git pull --ff-only --quiet 2>/dev/null || true
-  local_after=$(git rev-parse HEAD 2>/dev/null || echo "none")
-  cd - >/dev/null
+  local_before=$(git -C "$CACHE_DIR/agent-master" rev-parse HEAD 2>/dev/null || echo "none")
+  git -C "$CACHE_DIR/agent-master" pull --ff-only --quiet 2>/dev/null || true
+  local_after=$(git -C "$CACHE_DIR/agent-master" rev-parse HEAD 2>/dev/null || echo "none")
   if [ "$local_before" != "$local_after" ]; then
     cp -r "$CACHE_DIR/agent-master/skills/"* "$SKILLS_DIR/" 2>/dev/null || true
     log "  agent-master: self-updated"

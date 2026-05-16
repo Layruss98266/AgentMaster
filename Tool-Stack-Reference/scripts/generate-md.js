@@ -1,7 +1,25 @@
+/**
+ * generate-md.js — Convert JSON intermediates → markdown reference files
+ *
+ * Prerequisites:
+ *   Run extract.js first to produce hub-tools-out.json + hub-tech-out.json
+ *
+ * Usage (from repo root or Tool-Stack-Reference/scripts/):
+ *   node Tool-Stack-Reference/scripts/generate-md.js
+ *   # OR
+ *   cd Tool-Stack-Reference/scripts && node generate-md.js
+ *
+ * Outputs (written to Tool-Stack-Reference/hub/, committed to git):
+ *   tools-{slug}.md   — one file per tool category (32 files)
+ *   tech-{slug}.md    — one file per tech category (29 files)
+ *   README.md         — index of all hub files
+ */
+
 const fs = require('fs');
 const path = require('path');
 
-const OUT_DIR = path.join(__dirname, 'hub');
+const TSR_DIR = path.join(__dirname, '..');
+const OUT_DIR = path.join(TSR_DIR, 'hub');
 const SKIP_CATS = new Set(['tool-cat-browser']); // exclude browser extensions per user rule
 
 const CAT_NAMES = {
@@ -137,8 +155,8 @@ function generateTechMd(catName, items) {
 }
 
 // Load data
-const toolsGrouped = JSON.parse(fs.readFileSync(path.join(__dirname, 'hub-tools-out.json'), 'utf8'));
-const techGrouped = JSON.parse(fs.readFileSync(path.join(__dirname, 'hub-tech-out.json'), 'utf8'));
+const toolsGrouped = JSON.parse(fs.readFileSync(path.join(TSR_DIR, 'hub-tools-out.json'), 'utf8'));
+const techGrouped = JSON.parse(fs.readFileSync(path.join(TSR_DIR, 'hub-tech-out.json'), 'utf8'));
 
 // Create output dir
 if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true });
@@ -147,7 +165,7 @@ if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true });
 let toolFileCount = 0;
 for (const [catId, catData] of Object.entries(toolsGrouped)) {
   if (SKIP_CATS.has(catId)) {
-    process.stderr.write('Skipping ' + catId + ' (browser/website tools)\n');
+    process.stderr.write('Skipping ' + catId + ' (browser extensions)\n');
     continue;
   }
 
@@ -183,7 +201,7 @@ const toolCats = Object.entries(toolsGrouped)
   .filter(([id]) => !SKIP_CATS.has(id))
   .map(([id, cat]) => {
     const count = Object.values(cat.groups).reduce((s, g) => s + g.length, 0);
-    return { id, name: CAT_NAMES[id] || cat.name, slug: CAT_SLUGS[id] || id.replace('tool-cat-',''), count };
+    return { id, name: CAT_NAMES[id] || cat.name, slug: CAT_SLUGS[id] || id.replace('tool-cat-', ''), count };
   })
   .sort((a, b) => b.count - a.count);
 
